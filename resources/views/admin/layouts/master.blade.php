@@ -41,14 +41,6 @@
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
-            <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
@@ -203,11 +195,12 @@
             <ul class="sidebar-menu">
                 <li class="treeview active">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i
+                        <i class="fa fa-group"></i> <span>Kullanıcılar & Gruplar</span> <i
                                 class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                        <li class="active"><a href="/admin/users-groups/users"><i class=""></i> Kullanıcılar</a></li>
+                        <li class="active"><a href="/admin/users-groups/groups"><i class=""></i> Gruplar</a></li>
                     </ul>
                 </li>
                 <li>
