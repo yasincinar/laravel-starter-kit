@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('admin.dashboard');
 });
+
+Route::get('/login', 'Auth\LoginController@login');
+Route::post('login-post', 'Auth\LoginController@loginPost');
+
