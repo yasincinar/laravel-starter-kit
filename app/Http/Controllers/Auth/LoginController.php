@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use Request;
 
 class LoginController extends Controller
@@ -15,9 +16,14 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function loginPost(Request $request)
+    public function loginPost(LoginRequest $request)
     {
-        
+
+    }
+
+    public function logout()
+    {
+        \Sentinel::logout();
     }
 }
 

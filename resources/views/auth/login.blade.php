@@ -39,6 +39,8 @@
     </style>
 </head>
 <body>
+<?php echo(Session::has('messages')) ?>
+
 <div id="wrapper">
     <div class="container">
         <div class="row login-wrapper">
@@ -49,13 +51,14 @@
                             <img class="text-centered" src="{{url('assets/img/logo.png')}}" alt="">
                         </a>
                     </div>
+
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form id="login-form" action="" method="post" role="form"
+                                <form id="login-form" action="login-post" method="post" role="form"
                                       style="display: block;">
                                     <div class="form-group">
-                                        <input type="text" name="username" id="username" tabindex="1"
+                                        <input type="text" name="email" id="email" tabindex="1"
                                                class="form-control login"
                                                placeholder="E-Posta Adresiniz">
                                     </div>
@@ -85,7 +88,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{csrf_token()}}
+                                    {{csrf_field()}}
+                                    @if(Session::has('message'))
+
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach (Session::get('message') as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
+
                                 </form>
                             </div>
                         </div>
