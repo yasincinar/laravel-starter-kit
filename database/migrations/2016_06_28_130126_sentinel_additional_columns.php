@@ -17,7 +17,7 @@ class SentinelAdditionalColumns extends Migration
             $table->integer('city_id')->unsigned()->nullable();
             $table->integer('identity_number');
             $table->integer('cell_phone');
-            $table->string('profile_image');
+            $table->string('profile_image')->nullable();
             $table->text('address')->nullable();
 
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('set null');
