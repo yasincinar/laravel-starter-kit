@@ -11,10 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('admin.dashboard');
-});
+Route::group(['middleware' => ['web']], function () {
 
-Route::get('/login', 'Auth\LoginController@login');
-Route::post('login-post', 'Auth\LoginController@loginPost');
+    Route::get('/login', 'Auth\LoginController@login');
+    Route::post('login-post', 'Auth\LoginController@loginPost');
+
+    Route::group(['prefix' => 'admin', 'middleware' => 'sentinel-auth'], function () {
+
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        });
+
+    });
+
+
+});
 
