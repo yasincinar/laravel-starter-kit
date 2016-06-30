@@ -11,8 +11,6 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-
     Route::get('/login', 'Auth\LoginController@login');
     Route::post('login-post', 'Auth\LoginController@loginPost');
 
@@ -23,7 +21,3 @@ Route::group(['middleware' => ['web']], function () {
         });
 
     });
-
-
-});
-

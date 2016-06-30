@@ -39,8 +39,6 @@
     </style>
 </head>
 <body>
-<?php echo(Session::has('messages')) ?>
-
 <div id="wrapper">
     <div class="container">
         <div class="row login-wrapper">
@@ -89,18 +87,15 @@
                                         </div>
                                     </div>
                                     {{csrf_field()}}
-                                    @if(Session::has('message'))
-
+                                    @if(count($errors) > 0)
                                         <div class="alert alert-danger">
                                             <ul>
-                                                @foreach (Session::get('message') as $error)
-                                                    <li>{{ $error }}</li>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ Doge::firstLetterUpper($error) }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
                                     @endif
-
-
                                 </form>
                             </div>
                         </div>
@@ -110,10 +105,12 @@
         </div>
     </div>
 </div>
-
-
 <script src="/assets/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+    });
+</script>
 </body>
 </html>
 
