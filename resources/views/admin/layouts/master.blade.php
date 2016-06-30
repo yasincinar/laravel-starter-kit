@@ -131,13 +131,15 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/storage/admin/profile-img/{{$profileImage or "default.jpeg"}}" class="user-image" alt="User Image">
+                            <img src="/storage/admin/profile-img/{{$profileImage or "default.jpeg"}}" class="user-image"
+                                 alt="User Image">
                             <span class="hidden-xs">Alexander Pierce</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="/storage/admin/profile-img/{{$profileImage or "default.jpeg"}}" class="img-circle" alt="User Image">
+                                <img src="/storage/admin/profile-img/{{$profileImage or "default.jpeg"}}"
+                                     class="img-circle" alt="User Image">
 
                                 <p>
                                     Alexander Pierce - Web Developer
@@ -165,7 +167,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="/logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -193,22 +195,41 @@
             <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="treeview active">
-                    <a href="#">
-                        <i class="fa fa-group"></i> <span>Kullanıcılar & Gruplar</span> <i
-                                class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="active"><a href="/admin/users-groups/users"><i class=""></i> Kullanıcılar</a></li>
-                        <li class="active"><a href="/admin/users-groups/groups"><i class=""></i> Gruplar</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="../widgets.html">
-                        <i class="fa fa-th"></i> <span>Widgets</span>
-                        <small class="label pull-right bg-green">new</small>
-                    </a>
-                </li>
+                @foreach($menuItems as $menuItem)
+                    @if(!$menuItem['sub'])
+                        <?php
+                        $class = '';
+                        $selected = explode('/', $menuItem['link']); $selected = array_pop($selected);
+                        $activeClass = ($selectedMenu == $selected) ? "active" : "";
+                        ?>
+                        <li class="{{$activeClass}}">
+                            <a href="{{$menuItem['link']}}">
+                                <i class="{{$menuItem['icon']}}"></i><span>{{$menuItem['name']}}</span>
+                            </a>
+                        </li>
+                    @else
+                        <?php
+                        $class = '';
+
+
+                        ?>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="{{$menuItem['icon']}}"></i> <span>{{$menuItem['name']}}</span> <i
+                                        class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                @foreach($menuItem['sub'] as $subMenu)
+                                    <?php $selected = explode('/', $subMenu['link']); $selected = array_pop($selected); ?>
+                                    <li class="{{($selectedMenu == $selected)?"active":""}}"><a
+                                                href="{{$subMenu['link']}}"><i
+                                                    class="{{$subMenu['icon']}}"></i>{{$subMenu['name']}}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+                @endforeach
             </ul>
         </section>
         <!-- /.sidebar -->

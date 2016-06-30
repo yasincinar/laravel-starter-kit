@@ -25,7 +25,7 @@ class LoginRequest extends Request
     {
         return [
             'email'  =>  'required|email',
-            'password'  =>  'required|alpha_dash|min:6|max:255'
+            'password'  =>  'required|alpha_dash|min:5|max:255'
         ];
     }
 }
