@@ -3,15 +3,25 @@
     <link rel="stylesheet" href="/assets/plugins/datatables/dataTables.bootstrap.css">
 @endsection
 @section('content')
-    <div class="box">
-        <div class="box-header">
-            <h3 class="box-title">Data Table With Full Features</h3>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="/admin/users-groups/groups/create" class="btn btn-primary pull-right"><i
+                                        class="fa fa-plus"></i> Yeni
+                                Grup</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {!! $html->table() !!}
+                </div>
+                <!-- /.box-body -->
+            </div>
         </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            {!! $html->table() !!}
-        </div>
-        <!-- /.box-body -->
     </div>
 @endsection
 @section('js')

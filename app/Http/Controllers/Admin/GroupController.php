@@ -50,8 +50,8 @@ class GroupController extends AdminController
                 ->parameters(array('order' => [3, 'desc']));
             $data = [
                 'selectedMenu' => 'groups',
-                'page_title' => 'Gruplar',
-                'page_description' => 'Sistem Gruplarına Ait Özellikler Bu Sayfada Yer Almaktadır',
+                'pageTitle' => 'Gruplar',
+                'pageDescription' => 'Sistem gruplarına ait özellikler bu sayfada yer almaktadır',
             ];
             return view('admin.users-groups.groups.index', $data)->with(compact('html'));
         } else {
