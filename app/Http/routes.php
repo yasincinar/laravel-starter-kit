@@ -11,11 +11,9 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-
     Route::get('/login', 'Auth\LoginController@login')->name('login');
-    Route::post('login-post', 'Auth\LoginController@loginPost');
-    Route::get('logout', 'Auth\LoginController@logout');
+    Route::post('/login-post', 'Auth\LoginController@loginPost')->name('login-post');
+    Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::group(['prefix' => 'admin', 'middleware' => 'sentinel-auth'], function () {
 
@@ -23,7 +21,3 @@ Route::group(['middleware' => ['web']], function () {
         Route::resource('/users-groups/users', 'Admin\UserController');
 
     });
-
-
-});
-
