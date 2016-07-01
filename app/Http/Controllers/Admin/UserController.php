@@ -61,8 +61,8 @@ class UserController extends AdminController
                 ->parameters(array('order' => [3, 'desc']));
             $data = [
                 'selectedMenu' => 'users',
-                'page_title' => 'Kullanıcılar',
-                'page_description' => 'Sistem Kullanıcılara Ait Özellikler Bu Sayfada Yer Almaktadır',
+                'pageTitle' => 'Kullanıcılar',
+                'pageDescription' => 'Sistem Kullanıcılara Ait Özellikler Bu Sayfada Yer Almaktadır',
             ];
             return view('admin.users-groups.users.index', $data)->with(compact('html'));
         } else {

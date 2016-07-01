@@ -53,6 +53,7 @@ class Kernel extends HttpKernel
         /*
             Additional Middlewares
         */
-        'sentinel-auth' => \App\Http\Middleware\SentinelAuthenticate::class
+        'sentinel-auth' => \App\Http\Middleware\SentinelAuthenticate::class,
+        'authorization' => \App\Http\Middleware\Authorization::class
     ];
 }
