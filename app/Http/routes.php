@@ -11,13 +11,12 @@
 |
 */
 
-    Route::get('/login', 'Auth\LoginController@login');
-    Route::post('login-post', 'Auth\LoginController@loginPost');
+    Route::get('/login', 'Auth\LoginController@login')->name('login');
+    Route::post('/login-post', 'Auth\LoginController@loginPost')->name('login-post');
+    Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::group(['prefix' => 'admin', 'middleware' => 'sentinel-auth'], function () {
 
-        Route::get('/', function () {
-            return view('admin.dashboard');
-        });
+        Route::get('/dashboard', 'Admin\DashboardController@getDashboard')->name('admin.dashboard');
 
     });
