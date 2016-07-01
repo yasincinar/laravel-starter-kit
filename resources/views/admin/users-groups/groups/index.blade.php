@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
+                <div class="box-header">w
                     <div class="row">
                         <div class="col-xs-12">
                             <a href="/admin/users-groups/groups/create" class="btn btn-primary pull-right"><i

@@ -135,7 +135,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="/storage/admin/profile-img/{{$profileImage or "default.jpeg"}}" class="user-image"
                                  alt="User Image">
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs">{{$currentUser->first_name." ".$currentUser->last_name}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -144,24 +144,8 @@
                                      class="img-circle" alt="User Image">
 
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                    {{$currentUser->first_name." ".$currentUser->last_name}} - {{$userRole}}
                                 </p>
-                            </li>
-                            <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
