@@ -18,5 +18,6 @@
     Route::group(['prefix' => 'admin', 'middleware' => 'sentinel-auth'], function () {
 
         Route::get('/dashboard', 'Admin\DashboardController@getDashboard')->name('admin.dashboard');
+        Route::resource('/users-groups/users', 'Admin\UserController');
 
     });
