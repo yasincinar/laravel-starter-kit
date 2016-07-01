@@ -17,7 +17,7 @@ class RoleTableSeeder extends Seeder
         //Give all permissions to God Mode role
         $godModePermissions = [];
         foreach ($permissions as $permission) {
-            $godModePermissions[$permission->name] = 1;
+            $godModePermissions[$permission->name] = true;
         }
 
         //Save role for God Mode

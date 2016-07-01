@@ -31,7 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'city_id', 'first_name', 'last_name', 'identity_number', 'cell_phone', 'profile_image', 'address'
     ];
 
     /**
@@ -42,4 +42,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City');
+    }
 }

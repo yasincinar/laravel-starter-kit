@@ -15,8 +15,8 @@ class SentinelAdditionalColumns extends Migration
         Schema::table('users', function ($table) {
             $table->string('slug')->unique();
             $table->integer('city_id')->unsigned()->nullable();
-            $table->integer('identity_number');
-            $table->integer('cell_phone');
+            $table->string('identity_number',11);
+            $table->string('cell_phone',11);
             $table->string('profile_image')->nullable();
             $table->text('address')->nullable();
 
