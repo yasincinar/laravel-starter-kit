@@ -15,9 +15,10 @@
     Route::post('/login-post', 'Auth\LoginController@loginPost')->name('login-post');
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
-    Route::group(['prefix' => 'admin', 'middleware' => 'sentinel-auth'], function () {
+    Route::group(['prefix' => 'admin', 'middleware' => ['sentinel-auth','authorization']], function () {
 
         Route::get('/dashboard', 'Admin\DashboardController@getDashboard')->name('admin.dashboard');
+
         Route::resource('/users-groups/users', 'Admin\UserController');
         Route::resource('/users-groups/groups', 'Admin\GroupController');
 
