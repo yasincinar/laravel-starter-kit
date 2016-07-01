@@ -16,13 +16,15 @@
     <link rel="stylesheet" href="/assets/admin/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="/assets/admin/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/assets/admin/css/skins/skin-blue.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+
     <![endif]-->
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
@@ -195,7 +197,7 @@
             <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                @foreach($menuItems as $menuItem)
+                @foreach(config('sidebarConstants') as $menuItem)
                     @if(!$menuItem['sub'])
                         <?php
                         $class = '';
@@ -210,17 +212,25 @@
                     @else
                         <?php
                         $class = '';
+                        foreach ($menuItem['sub'] as $subMenu) {
+                            $selected = explode('/', $subMenu['link']);
+                            $selected = array_pop($selected);
+                            if ($selectedMenu == $selected) {
+                                $class = "active";
+                                break;
+                            } else {
+                                $class = "";
+                            }
 
-
+                        }
                         ?>
-                        <li class="treeview">
+                        <li class="treeview {{$class}}">
                             <a href="#">
                                 <i class="{{$menuItem['icon']}}"></i> <span>{{$menuItem['name']}}</span> <i
                                         class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
                                 @foreach($menuItem['sub'] as $subMenu)
-                                    <?php $selected = explode('/', $subMenu['link']); $selected = array_pop($selected); ?>
                                     <li class="{{($selectedMenu == $selected)?"active":""}}"><a
                                                 href="{{$subMenu['link']}}"><i
                                                     class="{{$subMenu['icon']}}"></i>{{$subMenu['name']}}</a>
@@ -274,5 +284,6 @@
 <script src="/assets/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/assets/admin/js/app.min.js"></script>
+@yield('js')
 </body>
 </html>
