@@ -19,5 +19,6 @@
 
         Route::get('/dashboard', 'Admin\DashboardController@getDashboard')->name('admin.dashboard');
         Route::resource('/users-groups/users', 'Admin\UserController');
+        Route::resource('/users-groups/groups', 'Admin\GroupController');
 
     });
