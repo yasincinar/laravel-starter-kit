@@ -21,14 +21,11 @@ class AdminController extends Controller
     public function __construct()
     {
         if (Sentinel::check()) {
-            $user = Sentinel::getUser()->roles()->get();
-            $deneme  = User::where('id',1)->with('roles')->get();
-            echo "<pre>";
-            echo json_encode($deneme);
-            die();
+            $user = Sentinel::getUser();
             if (!is_null($user)) {
                 $data = array(
                     'currentUser' => $user,
+                    'userRole' => $user->roles()->get()
                 );
                 $this->currentUser = $user;
                 view()->share($data);

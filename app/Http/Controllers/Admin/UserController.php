@@ -30,7 +30,7 @@ class UserController extends AdminController
                     ->filterColumn('full_name', 'whereRaw', "CONCAT(users.first_name,' ',users.last_name) like ?", ["$1"])
                     ->addColumn('action', function ($user) {
                         if (Sentinel::hasAccess('user.edit')) {
-                            $edit = $this->createEditButton('/admin/users-groups/users' . $user->slug . '/edit');
+                            $edit = $this->createEditButton('/admin/users-groups/users/' . $user->slug . '/edit');
                         } else {
                             $edit = '';
                         }
@@ -55,14 +55,14 @@ class UserController extends AdminController
                 ->addColumn(['data' => 'full_name', 'name' => 'full_name', 'title' => 'Ad Soyad'])
                 ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
                 ->addColumn(['data' => 'cell_phone', 'name' => 'cell_phone', 'title' => 'Telefon'])
-                ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At'])
-                ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At'])
+                ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => 'Oluşturulma Tarihi'])
+                ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Güncellenme Tarihi'])
                 ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'İşlemler', 'orderable' => false, 'searchable' => false])
                 ->parameters(array('order' => [3, 'desc']));
             $data = [
                 'selectedMenu' => 'users',
                 'pageTitle' => 'Kullanıcılar',
-                'pageDescription' => 'Sistem Kullanıcılara Ait Özellikler Bu Sayfada Yer Almaktadır',
+                'pageDescription' => 'Sistem kullanıcılara ait özellikler bu sayfada yer almaktadır',
             ];
             return view('admin.users-groups.users.index', $data)->with(compact('html'));
         } else {

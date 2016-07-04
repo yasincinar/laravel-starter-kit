@@ -144,7 +144,7 @@
                                      class="img-circle" alt="User Image">
 
                                 <p>
-                                    {{$currentUser->first_name." ".$currentUser->last_name}} - {{$userRole}}
+                                    {{$currentUser->first_name." ".$currentUser->last_name}} - {{$userRole[0]->name}}
                                 </p>
                             </li>
                             <!-- Menu Footer-->

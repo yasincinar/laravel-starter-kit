@@ -15,17 +15,17 @@ class PermissionTableSeeder extends Seeder
         $permissions = [
 
             //Admin page
-            ['display_name' => 'Admin Platform Görüntüle', 'name' => 'admin.show'],
+            ['display_name' => 'Admin Platform-Görüntüle', 'name' => 'admin.show'],
             //User
-            ['display_name' => 'Kullanıcı Görüntüleme', 'name' => 'user.show'],
-            ['display_name' => 'Kullanıcı Oluşturma', 'name' => 'user.create'],
-            ['display_name' => 'Kullanıcı Düzenleme', 'name' => 'user.edit'],
-            ['display_name' => 'Kullanıcı Silme', 'name' => 'user.delete'],
+            ['display_name' => 'Kullanıcı-Görüntüleme', 'name' => 'user.show'],
+            ['display_name' => 'Kullanıcı-Oluşturma', 'name' => 'user.create'],
+            ['display_name' => 'Kullanıcı-Düzenleme', 'name' => 'user.edit'],
+            ['display_name' => 'Kullanıcı-Silme', 'name' => 'user.delete'],
             //Group
-            ['display_name' => 'Kullanıcı Grubu Görüntüleme', 'name' => 'group.show'],
-            ['display_name' => 'Kullanıcı Grubu Oluşturma', 'name' => 'group.create'],
-            ['display_name' => 'Kullanıcı Grubu Düzenleme', 'name' => 'group.edit'],
-            ['display_name' => 'Kullanıcı Grubu Silme', 'name' => 'group.delete'],
+            ['display_name' => 'Kullanıcı Grubu-Görüntüleme', 'name' => 'group.show'],
+            ['display_name' => 'Kullanıcı Grubu-Oluşturma', 'name' => 'group.create'],
+            ['display_name' => 'Kullanıcı Grubu-Düzenleme', 'name' => 'group.edit'],
+            ['display_name' => 'Kullanıcı Grubu-Silme', 'name' => 'group.delete'],
         ];
 
         //Truncate permissions table to avoid already exist error
