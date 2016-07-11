@@ -34,8 +34,9 @@ class LoginController extends Controller
 
         if (!$user) {
             return back()
-                ->withInput($request->except('password'))
-                ->with(['login-err' => 'Bilgileriniz hatalı. Lütfen tekrar deneyiniz']);
+                ->withInput(Request::except('password'))
+                ->with(['login_err' => 'Bilgileriniz hatalı. Lütfen tekrar deneyiniz']);
+
         } else {
             return redirect()->route('admin.dashboard');
         }

@@ -60,10 +60,15 @@
                             <div class="col-lg-12">
                                 <form id="login-form" action="login-post" method="post" role="form"
                                       style="display: block;">
+                                    @if (session('login_err'))
+                                        <div class="alert alert-danger">
+                                            <i class="fa fa-times-circle-o"></i> {{ session('login_err') }}
+                                        </div>
+                                    @endif
                                     <div class="form-group" id="email-div">
                                         <input type="text" name="email" id="email" tabindex="1"
                                                class="form-control login required email"
-                                               placeholder="E-Posta Adresiniz">
+                                               placeholder="E-Posta Adresiniz" value="{{old('email')}}">
                                     </div>
                                     <div class="form-group" id="password-div">
                                         <input type="password" name="password" id="password" tabindex="2"

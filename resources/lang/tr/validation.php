@@ -105,6 +105,7 @@ return [
     'attributes' => [
         'email' => 'e-posta',
         'password' => 'şifre',
+        'role_name' => 'grup adı',
         'access_denied' =>  'Erişim Reddedildi'
     ],
 

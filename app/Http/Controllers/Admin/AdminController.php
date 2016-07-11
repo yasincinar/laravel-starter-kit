@@ -22,9 +22,6 @@ class AdminController extends Controller
     {
         if (Sentinel::check()) {
             $user = Sentinel::getUser();
-//            echo "<pre>";
-//            echo json_encode($user->roles);
-//            die();
             if (!is_null($user)) {
                 $data = array(
                     'currentUser' => $user,

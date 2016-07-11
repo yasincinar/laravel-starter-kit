@@ -111,7 +111,8 @@ return [
     'attributes' => [
         'email' => 'e-mail',
         'password' => 'password',
-        'access_denied' =>  'Access Denied'
+        'access_denied' =>  'Access Denied',
+        'role_name' => 'role name'
     ],
 
 ];
