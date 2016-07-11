@@ -20,7 +20,7 @@ class GroupController extends AdminController
      */
     public function index(Datatables $datatables)
     {
-        if (Sentinel::hasAccess('user.show')) {
+        if (Sentinel::hasAccess('groups.show')) {
 
             if ($datatables->getRequest()->ajax()) {
 
@@ -68,7 +68,7 @@ class GroupController extends AdminController
      */
     public function create()
     {
-        if (Sentinel::hasAccess('user.create')) {
+        if (Sentinel::hasAccess('groups.create')) {
 
             $permissions = DB::table('permissions')->get();
 
@@ -104,7 +104,7 @@ class GroupController extends AdminController
     public
     function store(GroupRequest $request)
     {
-        if (Sentinel::hasAccess('user.create')) {
+        if (Sentinel::hasAccess('groups.create')) {
 
             $permissions = [];
             foreach ($request->permissions as $permission) {

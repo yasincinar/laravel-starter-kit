@@ -110,7 +110,7 @@
 <script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/jQuery-validation/dist/jquery.validate.js"></script>
 <script type="text/javascript" src="/assets/plugins/jQuery-validation/dist/localization/messages_tr.min.js"></script>
-<script type="text/javascript" src="/assets/admin/js/main.js"></script>
+<script type="text/javascript" src="/assets/js/common.js"></script>
 <script>
     $(document).ready(function () {
         //Email error array

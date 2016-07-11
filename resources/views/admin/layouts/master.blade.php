@@ -279,7 +279,7 @@
 <script type="text/javascript" src="/assets/plugins/sweetalert/sweetalert.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/block-ui/jquery.blockUI.js"></script>
-<script type="text/javascript" src="/assets/js/main.js"></script>
+<script type="text/javascript" src="/assets/admin/js/main.js"></script>
 @yield('js')
 </body>
 </html>
