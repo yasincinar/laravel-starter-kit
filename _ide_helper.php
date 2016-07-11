@@ -6655,11 +6655,10 @@ namespace {
          * @param mixed $data
          * @param string $queue
          * @return mixed 
-         * @throws \Exception|\Throwable
          * @static 
          */
         public static function push($job, $data = '', $queue = null){
-            return \Illuminate\Queue\SyncQueue::push($job, $data, $queue);
+            return \Illuminate\Queue\DatabaseQueue::push($job, $data, $queue);
         }
         
         /**
@@ -6672,7 +6671,7 @@ namespace {
          * @static 
          */
         public static function pushRaw($payload, $queue = null, $options = array()){
-            return \Illuminate\Queue\SyncQueue::pushRaw($payload, $queue, $options);
+            return \Illuminate\Queue\DatabaseQueue::pushRaw($payload, $queue, $options);
         }
         
         /**
@@ -6682,11 +6681,37 @@ namespace {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return mixed 
+         * @return void 
          * @static 
          */
         public static function later($delay, $job, $data = '', $queue = null){
-            return \Illuminate\Queue\SyncQueue::later($delay, $job, $data, $queue);
+            \Illuminate\Queue\DatabaseQueue::later($delay, $job, $data, $queue);
+        }
+        
+        /**
+         * Push an array of jobs onto the queue.
+         *
+         * @param array $jobs
+         * @param mixed $data
+         * @param string $queue
+         * @return mixed 
+         * @static 
+         */
+        public static function bulk($jobs, $data = '', $queue = null){
+            return \Illuminate\Queue\DatabaseQueue::bulk($jobs, $data, $queue);
+        }
+        
+        /**
+         * Release a reserved job back onto the queue.
+         *
+         * @param string $queue
+         * @param \StdClass $job
+         * @param int $delay
+         * @return mixed 
+         * @static 
+         */
+        public static function release($queue, $job, $delay){
+            return \Illuminate\Queue\DatabaseQueue::release($queue, $job, $delay);
         }
         
         /**
@@ -6697,7 +6722,50 @@ namespace {
          * @static 
          */
         public static function pop($queue = null){
-            return \Illuminate\Queue\SyncQueue::pop($queue);
+            return \Illuminate\Queue\DatabaseQueue::pop($queue);
+        }
+        
+        /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param string $id
+         * @return void 
+         * @static 
+         */
+        public static function deleteReserved($queue, $id){
+            \Illuminate\Queue\DatabaseQueue::deleteReserved($queue, $id);
+        }
+        
+        /**
+         * Get the underlying database instance.
+         *
+         * @return \Illuminate\Database\Connection 
+         * @static 
+         */
+        public static function getDatabase(){
+            return \Illuminate\Queue\DatabaseQueue::getDatabase();
+        }
+        
+        /**
+         * Get the expiration time in seconds.
+         *
+         * @return int|null 
+         * @static 
+         */
+        public static function getExpire(){
+            return \Illuminate\Queue\DatabaseQueue::getExpire();
+        }
+        
+        /**
+         * Set the expiration time in seconds.
+         *
+         * @param int|null $seconds
+         * @return void 
+         * @static 
+         */
+        public static function setExpire($seconds){
+            \Illuminate\Queue\DatabaseQueue::setExpire($seconds);
         }
         
         /**
@@ -6711,7 +6779,7 @@ namespace {
          */
         public static function pushOn($queue, $job, $data = ''){
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::pushOn($queue, $job, $data);
+            return \Illuminate\Queue\DatabaseQueue::pushOn($queue, $job, $data);
         }
         
         /**
@@ -6726,21 +6794,7 @@ namespace {
          */
         public static function laterOn($queue, $delay, $job, $data = ''){
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::laterOn($queue, $delay, $job, $data);
-        }
-        
-        /**
-         * Push an array of jobs onto the queue.
-         *
-         * @param array $jobs
-         * @param mixed $data
-         * @param string $queue
-         * @return mixed 
-         * @static 
-         */
-        public static function bulk($jobs, $data = '', $queue = null){
-            //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::bulk($jobs, $data, $queue);
+            return \Illuminate\Queue\DatabaseQueue::laterOn($queue, $delay, $job, $data);
         }
         
         /**
@@ -6752,7 +6806,7 @@ namespace {
          */
         public static function setContainer($container){
             //Method inherited from \Illuminate\Queue\Queue            
-            \Illuminate\Queue\SyncQueue::setContainer($container);
+            \Illuminate\Queue\DatabaseQueue::setContainer($container);
         }
         
         /**
@@ -6764,7 +6818,7 @@ namespace {
          */
         public static function setEncrypter($crypt){
             //Method inherited from \Illuminate\Queue\Queue            
-            \Illuminate\Queue\SyncQueue::setEncrypter($crypt);
+            \Illuminate\Queue\DatabaseQueue::setEncrypter($crypt);
         }
         
     }
@@ -7742,7 +7796,7 @@ namespace {
         /**
          * Gets the list of trusted proxies.
          *
-         * @return array An array of trusted proxies.
+         * @return array An array of trusted proxies
          * @static 
          */
         public static function getTrustedProxies(){
@@ -7766,7 +7820,7 @@ namespace {
         /**
          * Gets the list of trusted host patterns.
          *
-         * @return array An array of trusted host patterns.
+         * @return array An array of trusted host patterns
          * @static 
          */
         public static function getTrustedHosts(){
@@ -8330,7 +8384,7 @@ namespace {
         /**
          * Sets the request format.
          *
-         * @param string $format The request format.
+         * @param string $format The request format
          * @static 
          */
         public static function setRequestFormat($format){
@@ -8396,7 +8450,7 @@ namespace {
         /**
          * Checks if the request method is of specified type.
          *
-         * @param string $method Uppercase request method (GET, POST etc).
+         * @param string $method Uppercase request method (GET, POST etc)
          * @return bool 
          * @static 
          */
@@ -8420,7 +8474,7 @@ namespace {
          * Returns the request body content.
          *
          * @param bool $asResource If true, a resource will be returned
-         * @return string|resource The request body content or a resource to read the body stream.
+         * @return string|resource The request body content or a resource to read the body stream
          * @throws \LogicException
          * @static 
          */
@@ -9607,7 +9661,7 @@ namespace {
         /**
          * Starts the session storage.
          *
-         * @return bool True if session started.
+         * @return bool True if session started
          * @throws \RuntimeException If session fails to start.
          * @static 
          */
@@ -9618,7 +9672,7 @@ namespace {
         /**
          * Returns the session ID.
          *
-         * @return string The session ID.
+         * @return string The session ID
          * @static 
          */
         public static function getId(){
@@ -9649,7 +9703,7 @@ namespace {
         /**
          * Returns the session name.
          *
-         * @return mixed The session name.
+         * @return mixed The session name
          * @static 
          */
         public static function getName(){
@@ -9676,7 +9730,7 @@ namespace {
          *                      will leave the system settings unchanged, 0 sets the cookie
          *                      to expire with browser session. Time is in seconds, and is
          *                      not a Unix timestamp.
-         * @return bool True if session invalidated, false if error.
+         * @return bool True if session invalidated, false if error
          * @static 
          */
         public static function invalidate($lifetime = null){
@@ -9687,12 +9741,12 @@ namespace {
          * Migrates the current session to a new session id while maintaining all
          * session attributes.
          *
-         * @param bool $destroy Whether to delete the old session or leave it to garbage collection.
+         * @param bool $destroy Whether to delete the old session or leave it to garbage collection
          * @param int $lifetime Sets the cookie lifetime for the session cookie. A null value
          *                       will leave the system settings unchanged, 0 sets the cookie
          *                       to expire with browser session. Time is in seconds, and is
          *                       not a Unix timestamp.
-         * @return bool True if session migrated, false if error.
+         * @return bool True if session migrated, false if error
          * @static 
          */
         public static function migrate($destroy = false, $lifetime = null){
@@ -9748,7 +9802,7 @@ namespace {
          * Returns an attribute.
          *
          * @param string $name The attribute name
-         * @param mixed $default The default value if not found.
+         * @param mixed $default The default value if not found
          * @return mixed 
          * @static 
          */
@@ -12390,6 +12444,75 @@ namespace {
          */
         public static function disableDispatcher(){
             return \Cartalyst\Sentinel\Sentinel::disableDispatcher();
+        }
+        
+    }
+
+
+    class Datatables extends \Yajra\Datatables\Facades\Datatables{
+        
+        /**
+         * Gets query and returns instance of class.
+         *
+         * @param mixed $builder
+         * @return mixed 
+         * @static 
+         */
+        public static function of($builder){
+            return \Yajra\Datatables\Datatables::of($builder);
+        }
+        
+        /**
+         * Datatables using Query Builder.
+         *
+         * @param \Illuminate\Database\Query\Builder $builder
+         * @return \Yajra\Datatables\Engines\QueryBuilderEngine 
+         * @static 
+         */
+        public static function usingQueryBuilder($builder){
+            return \Yajra\Datatables\Datatables::usingQueryBuilder($builder);
+        }
+        
+        /**
+         * Datatables using Collection.
+         *
+         * @param \Illuminate\Support\Collection $builder
+         * @return \Yajra\Datatables\Engines\CollectionEngine 
+         * @static 
+         */
+        public static function usingCollection($builder){
+            return \Yajra\Datatables\Datatables::usingCollection($builder);
+        }
+        
+        /**
+         * Datatables using Eloquent.
+         *
+         * @param mixed $builder
+         * @return \Yajra\Datatables\Engines\EloquentEngine 
+         * @static 
+         */
+        public static function usingEloquent($builder){
+            return \Yajra\Datatables\Datatables::usingEloquent($builder);
+        }
+        
+        /**
+         * Get html builder class.
+         *
+         * @return \Yajra\Datatables\Html\Builder 
+         * @static 
+         */
+        public static function getHtmlBuilder(){
+            return \Yajra\Datatables\Datatables::getHtmlBuilder();
+        }
+        
+        /**
+         * Get request object.
+         *
+         * @return \Yajra\Datatables\Request|static 
+         * @static 
+         */
+        public static function getRequest(){
+            return \Yajra\Datatables\Datatables::getRequest();
         }
         
     }

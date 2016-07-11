@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\City;
 use App\Models\User;
 use DB;
 use Illuminate\Http\Request;
@@ -73,7 +74,15 @@ class UserController extends AdminController
      */
     public function create()
     {
-        //
+        $cities = City::all();
+
+        $data = [
+            'cities' => $cities,
+            'pageTitle' => 'Kullanıcılar',
+            'pageDescription' => 'Sisteme yeni kullanıcı ekleme sayfasıdır',
+            'selectedMenu' => 'users'
+        ];
+        return view('admin.users-groups.users.create', $data);
     }
 
     /**

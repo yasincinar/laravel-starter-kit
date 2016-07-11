@@ -16,11 +16,12 @@ class PermissionTableSeeder extends Seeder
 
             //Admin page
             ['display_name' => 'Admin Platform Görüntüle', 'name' => 'admin.dashboard'],
+            //Users
             ['display_name' => 'Kullanıcı Görüntüleme', 'name' => 'users.show'],
-            ['display_name' => 'Kullanıcı Görüntüleme', 'name' => 'users.index'],
             ['display_name' => 'Kullanıcı Oluşturma', 'name' => 'users.create'],
             ['display_name' => 'Kullanıcı Düzenleme', 'name' => 'users.edit'],
             ['display_name' => 'Kullanıcı Silme', 'name' => 'users.delete'],
+            //Groups
             ['display_name' => 'Kullanıcı Grubu Görüntüleme', 'name' => 'groups.show'],
             ['display_name' => 'Kullanıcı Grubu Oluşturma', 'name' => 'groups.create'],
             ['display_name' => 'Kullanıcı Grubu Düzenleme', 'name' => 'groups.edit'],

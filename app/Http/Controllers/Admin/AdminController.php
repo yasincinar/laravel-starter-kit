@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Crypt;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -20,6 +22,9 @@ class AdminController extends Controller
     {
         if (Sentinel::check()) {
             $user = Sentinel::getUser();
+//            echo "<pre>";
+//            echo json_encode($user->roles);
+//            die();
             if (!is_null($user)) {
                 $data = array(
                     'currentUser' => $user,

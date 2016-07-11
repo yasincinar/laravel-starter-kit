@@ -110,7 +110,8 @@ return [
 
     'attributes' => [
         'email' => 'e-mail',
-        'password' => 'password'
+        'password' => 'password',
+        'access_denied' =>  'Access Denied'
     ],
 
 ];

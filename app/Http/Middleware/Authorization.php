@@ -28,33 +28,30 @@ class Authorization
          */
         $method = $request->method();
         $requestRouteName = explode('.', $request->route()->getName());
-        $hasAccess = false;
+        $permission = array_pop($requestRouteName);
+        $permissionGroup = array_pop($requestRouteName);
+
         switch ($method) {
             case 'GET':
-                $permission = array_pop($requestRouteName);
-                $permissionGroup = array_pop($requestRouteName);
-                $hasAccess = Sentinel::hasAccess($permissionGroup . "." . $permission);
+                $permission = ($permission == 'index' ? 'show' : $permission);
                 break;
             case 'POST':
-                $permission = array_pop($requestRouteName);
-                $permissionGroup = array_pop($requestRouteName);
                 $permission = ($permission == 'store' ? 'create' : $permission);
-                $hasAccess = Sentinel::hasAnyAccess($permissionGroup . "." . $permission);
                 break;
             case 'DELETE':
-                $permission = array_pop($requestRouteName);
-                $permissionGroup = array_pop($requestRouteName);
-                $permission = ($permission == 'store' ? 'create' : $permission);
-                $hasAccess = Sentinel::hasAnyAccess($permissionGroup . "." . $permission);
+                $permission = ($permission == 'destroy' ? 'delete' : $permission);
                 break;
             case 'PUT':
+                $permission = ($permission == 'update' ? 'edit' : $permission);
                 break;
         }
+
+        $hasAccess = Sentinel::hasAccess($permissionGroup . "." . $permission);
 
         if ($hasAccess) {
             return $next($request);
         } else {
-            abort(403, "Yetki Yok");
+            abort(403, trans('access_denied'));
         }
 
     }

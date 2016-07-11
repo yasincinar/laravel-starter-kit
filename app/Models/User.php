@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\City');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\Role','role_users', 'user_id', 'role_id');
+    }
 }

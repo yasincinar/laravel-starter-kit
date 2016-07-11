@@ -104,7 +104,8 @@ return [
 
     'attributes' => [
         'email' => 'e-posta',
-        'password' => 'şifre'
+        'password' => 'şifre',
+        'access_denied' =>  'Erişim Reddedildi'
     ],
 
 ];

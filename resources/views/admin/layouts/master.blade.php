@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="/assets/plugins/bootstrap3-editable/css/bootstrap-editable.css">
     <!-- Theme style -->
+    @yield('css')
     <link rel="stylesheet" href="/assets/admin/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
@@ -24,8 +27,10 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-    <![endif]-->
-    @yield('css')
+    <!-- Plugins-->
+    <link rel="stylesheet" href="/assets/plugins/sweetalert/sweetalert.css">
+    <!--[endif]-->
+
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
 <!-- the fixed layout is not compatible with sidebar-mini -->
@@ -135,7 +140,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="/storage/admin/profile-img/{{$profileImage or "default.jpeg"}}" class="user-image"
                                  alt="User Image">
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs">{{$currentUser->first_name." ".$currentUser->last_name}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -144,24 +149,9 @@
                                      class="img-circle" alt="User Image">
 
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                    {{$currentUser->first_name." ".$currentUser->last_name}}
+                                    - {{$currentUser->roles[0]->name}}
                                 </p>
-                            </li>
-                            <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
@@ -284,6 +274,12 @@
 <script src="/assets/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/assets/admin/js/app.min.js"></script>
+
+<!-- Plugins -->
+<script type="text/javascript" src="/assets/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/block-ui/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/assets/js/main.js"></script>
 @yield('js')
 </body>
 </html>
