@@ -6,12 +6,13 @@
  */
 
 
-function firstLetterUpper($text)
-{
-
+function firstLetterUpper($text){
     $text = mb_strtolower($text, "UTF-8");
     $firstLetter = mb_strtoupper(mb_substr($text, 0, 1, "UTF-8"), "UTF-8");
     $otherLetters = mb_strtolower(mb_substr($text, 1, mb_strlen($text, "UTF-8"), "UTF-8"), "UTF-8");
-
     return $firstLetter . $otherLetters;
+}
+
+function titleCase($text){
+    return mb_convert_case($text, MB_CASE_TITLE, "UTF-8");
 }
