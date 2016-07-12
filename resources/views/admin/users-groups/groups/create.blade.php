@@ -35,10 +35,20 @@
                                             {{$key}}
                                         </td>
                                         @foreach($value as $permissionKey => $permissionValue)
-                                            <td>
-                                                <input type="checkbox" name="permissions[]"
-                                                       value="{{Crypt::encrypt($permissionValue)}}">
-                                            </td>
+                                            @if($permissionValue != null)
+                                                <td>
+                                                    <input type="checkbox" name="permissions[]"
+                                                           data-on-text="<i class='fa fa-check'></i>"
+                                                           data-off-text="<i class='fa fa-times'></i>"
+                                                           data-on-color="success"
+                                                           data-size="small"
+                                                           value="{{Crypt::encrypt($permissionValue)}}">
+                                                </td>
+                                            @else
+                                                <td>
+                                                    -
+                                                </td>
+                                            @endif
                                         @endforeach
                                     </tr>
                                 @endforeach
@@ -56,7 +66,6 @@
                                class="btn btn-danger">İptal</a>
                         </div>
                     </form>
-                    {{json_encode($errors->all())}}
                 </div>
             </div>
         </div>
@@ -67,10 +76,6 @@
     <script src="/assets/admin/js/main.js"></script>
     <script>
         $(document).ready(function () {
-            $.fn.bootstrapSwitch.defaults.size = 'small';
-            $.fn.bootstrapSwitch.defaults.onText = 'EVET';
-            $.fn.bootstrapSwitch.defaults.onColor = 'success';
-            $.fn.bootstrapSwitch.defaults.offText = 'HAYIR';
             $("[type='checkbox']").bootstrapSwitch();
 
             //Email error array

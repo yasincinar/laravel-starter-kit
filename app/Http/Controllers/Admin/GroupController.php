@@ -23,7 +23,6 @@ class GroupController extends AdminController
         if (Sentinel::hasAccess('groups.show')) {
 
             if ($datatables->getRequest()->ajax()) {
-
                 $roles = Role::all();
 
                 return Datatables::of($roles)
@@ -74,14 +73,25 @@ class GroupController extends AdminController
 
             $permissionArray = [];
             foreach ($permissions as $permission) {
-                $permissionName = explode("-", $permission->display_name);
-                $permissionName = $permissionName[0];
+                $display_name = explode(" ", $permission->display_name);
+                array_pop($display_name);
+                $permissionName = implode(" ", $display_name);
                 $permissionType = explode(".", $permission->name);
                 $permissionType = end($permissionType);
 
-
+                //Change special show permissions with show
+                if (!in_array($permissionType, ['create', 'edit', 'delete'])) {
+                    $permissionType = 'show';
+                }
                 $permissionArray[$permissionName][$permissionType] = $permission->name;
 
+                //Define all permissions
+                $permisssionTypeArray = ['show', 'create', 'edit', 'delete'];
+                foreach ($permisssionTypeArray as $p) {
+                    if (!array_key_exists($p, $permissionArray[$permissionName]))
+                        $permissionArray[$permissionName][$p] = null;
+
+                }
             }
             $data = [
                 'permissions' => $permissionArray,
@@ -102,14 +112,16 @@ class GroupController extends AdminController
      * @return \Illuminate\Http\Response
      */
     public
-    function store(GroupRequest $request)
+    function store()
     {
+//        GroupRequest $request
+        $permissions = request()->get('permissions');
         if (Sentinel::hasAccess('groups.create')) {
-
             $permissions = [];
-            foreach ($request->permissions as $permission) {
+            foreach ($permissions as $permission) {
                 $permissions[] = \Crypt::decrypt($permission);
             }
+            return $permissions;
         } else {
             abort(403, $this->accessForbidden);
         }
