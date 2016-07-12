@@ -110,7 +110,7 @@ return [
         'access_denied' => 'erişim reddedildi',
         'first_name' => 'ad',
         'last_name' => 'soyad',
-        'slug_name' => 'url',
+        'slug' => 'url',
         'cell_phone' => 'cep telefonu',
         'address' => 'adres',
     ],

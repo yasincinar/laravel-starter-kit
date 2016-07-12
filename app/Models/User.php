@@ -31,7 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'city_id', 'first_name', 'last_name', 'identity_number', 'cell_phone', 'profile_image', 'address'
+        'name', 'email', 'slug', 'password', 'city_id', 'first_name', 'last_name', 'identity_number', 'cell_phone', 'profile_image', 'address'
     ];
 
     /**
@@ -43,6 +43,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+
     public function city()
     {
         return $this->belongsTo('App\Models\City');
@@ -50,6 +56,6 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany('App\Models\Role','role_users', 'user_id', 'role_id');
+        return $this->belongsToMany('App\Models\Role', 'role_users', 'user_id', 'role_id');
     }
 }

@@ -116,7 +116,7 @@ return [
         'password_confirmation' => 'şifre tekrar',
         'first_name' => 'first name',
         'last_name' => 'last name',
-        'slug_name' => 'url',
+        'slug' => 'url',
         'cell_phone' => 'cell phone',
         'address' => 'address',
     ],

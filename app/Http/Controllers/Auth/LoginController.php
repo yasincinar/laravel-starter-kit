@@ -38,7 +38,7 @@ class LoginController extends Controller
                 ->with(['login_err' => 'Bilgileriniz hatalı. Lütfen tekrar deneyiniz']);
 
         } else {
-            return redirect()->route('admin.dashboard');
+            return \Redirect::intended("admin/dashboard");
         }
 
 

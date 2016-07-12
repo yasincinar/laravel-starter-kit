@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\Request;
+use Crypt;
 
 class UserRequest extends Request
 {
@@ -24,8 +25,13 @@ class UserRequest extends Request
         if ($data->has('cell_phone') && $data->get('cell_phone') != '') {
             $data['cell_phone'] = preg_replace('/[^0-9]/', '', $data['cell_phone']);
         }
-        if ($data->has('first_name') && $data->get('first_name') != '') {
-            $data['first_name'] =  (mb_strtolower($data['first_name'], 'utf-8'));
+
+        if ($data->has('city') && $data->get('city') != '') {
+            $data['city'] = Crypt::decrypt($data['city']);
+        }
+
+        if ($data->has('role') && $data->get('role') != '') {
+            $data['role'] = Crypt::decrypt($data['role']);
         }
 
         return $data->toArray();
@@ -41,11 +47,12 @@ class UserRequest extends Request
         return [
             'first_name' => 'required|alpha_dash|min:3|max:255',
             'last_name' => 'required|alpha_dash|min:3|max:255',
-            'slug_name' => 'required|alpha_dash|min:3|max:255',
+            'slug' => 'required|alpha_dash|min:3|max:255',
             'email' => 'required|email',
             'cell_phone' => 'required|size:11',
             'address' => 'required|min:3|max:65535',
-            'city' => 'required',
+            'city' => 'required|between:1,82',
+            'role' => 'required',
             'password' => 'required|alpha_dash|confirmed',
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\UserRequest;
 use App\Models\City;
+use App\Models\Role;
 use App\Models\User;
 use DB;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Sentinel;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Yajra\Datatables\Datatables;
 
 class UserController extends AdminController
@@ -76,9 +78,11 @@ class UserController extends AdminController
     public function create()
     {
         $cities = City::all();
+        $roles = Role::all();
 
         $data = [
             'cities' => $cities,
+            'roles' => $roles,
             'pageTitle' => 'Kullanıcılar',
             'pageDescription' => 'Sisteme yeni kullanıcı ekleme sayfasıdır',
             'selectedMenu' => 'users',
@@ -95,12 +99,31 @@ class UserController extends AdminController
      */
     public function store(UserRequest $request)
     {
-        dd($request->all());
-        $output = DB::transaction(function () use ($request) {
-            User::create($request->toArray());
-        });
-        echo $output;
-        return response()->json($this->storeResponseMessage);
+        try {
+            DB::transaction(function () use ($request) {
+                $newUser = User::create([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'slug' => $request->slug,
+                    'email' => $request->email,
+                    'password' => $request->password,
+                    'cell_phone' => $request->cell_phone,
+                    'identity_number' => $request->identity_number,
+                    'address' => $request->address,
+                    'city_id' => $request->city
+                ]);
+
+                $role = Sentinel::findRoleById($request->role);
+                $role->users()->attach($newUser);
+
+            });
+
+        } catch (\Exception $e) {
+
+            return response()->json($this->storeErrorMessage, 500);
+        }
+
+        return response()->json($this->storeSuccessMessage);
     }
 
     /**

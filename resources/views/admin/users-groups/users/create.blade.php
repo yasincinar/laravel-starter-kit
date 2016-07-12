@@ -57,6 +57,14 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="role">Kullanıcı Rolü</label>
+                            <select type="text" class="form-control select2" id="role" name="role">
+                                @foreach($roles as $role)
+                                    <option value="{{encrypt($role->id)}}">{{$role->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="password">Şifre</label>
                             <input type="password" class="form-control" id="password" name="password"
                                    placeholder="Password">

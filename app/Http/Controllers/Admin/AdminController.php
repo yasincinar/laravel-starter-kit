@@ -14,9 +14,12 @@ class AdminController extends Controller
 {
     protected $currentUser;
     protected $accessForbidden = 'Bu Sayfayı Görüntüleme Yetkiniz Yok!';
-    protected $deleteResponseMessage = ['success' => true, 'messages' => 'Silme Başarılı'];
-    protected $storeResponseMessage = ['success' => true, 'messages' => 'Kayıt İşlemi Başarılı'];
-    protected $editResponseMessage = ['success' => true, 'messages' => 'Güncelleme İşlemi Başarılı'];
+    protected $deleteResponseMessage = ['success' => true, 'messages' => 'Silme başarılı'];
+
+    protected $storeSuccessMessage = ['success' => true, 'messages' => 'Kayıt işlemi başarılı'];
+    protected $storeErrorMessage = ['messages' => 'Beklenmedik bir hata ile karşılaşıldı lütfen sistem yöneticinizle iletişime geçiniz.'];
+
+    protected $editResponseMessage = ['success' => true, 'messages' => 'Güncelleme işlemi başarılı'];
 
     public function __construct()
     {
