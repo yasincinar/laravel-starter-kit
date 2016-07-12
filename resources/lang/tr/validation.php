@@ -105,8 +105,14 @@ return [
     'attributes' => [
         'email' => 'e-posta',
         'password' => 'şifre',
+        'password_confirmation' => 'şifre tekrar',
         'role_name' => 'grup adı',
-        'access_denied' =>  'Erişim Reddedildi'
+        'access_denied' => 'erişim reddedildi',
+        'first_name' => 'ad',
+        'last_name' => 'soyad',
+        'slug_name' => 'url',
+        'cell_phone' => 'cep telefonu',
+        'address' => 'adres',
     ],
 
 ];

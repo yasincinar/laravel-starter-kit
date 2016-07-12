@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\UserRequest;
 use App\Models\City;
 use App\Models\User;
 use DB;
@@ -80,7 +81,8 @@ class UserController extends AdminController
             'cities' => $cities,
             'pageTitle' => 'Kullanıcılar',
             'pageDescription' => 'Sisteme yeni kullanıcı ekleme sayfasıdır',
-            'selectedMenu' => 'users'
+            'selectedMenu' => 'users',
+            'model' => 'users'
         ];
         return view('admin.users-groups.users.create', $data);
     }
@@ -91,9 +93,14 @@ class UserController extends AdminController
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        dd($request->all());
+        $output = DB::transaction(function () use ($request) {
+            User::create($request->toArray());
+        });
+        echo $output;
+        return response()->json($this->storeResponseMessage);
     }
 
     /**

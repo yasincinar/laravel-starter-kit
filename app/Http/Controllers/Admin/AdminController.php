@@ -59,13 +59,4 @@ class AdminController extends Controller
         return $edit;
     }
 
-    protected function permissionSection(\Closure $closure, $permission)
-    {
-        if ($this->currentUser->hasAccess($permission)) {
-            $func = $closure($this);
-            return $func;
-        } else {
-            abort(403, $this->accessForbidden);
-        }
-    }
 }

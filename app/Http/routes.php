@@ -11,15 +11,20 @@
 |
 */
 
-    Route::get('/login', 'Auth\LoginController@login')->name('login');
-    Route::post('/login-post', 'Auth\LoginController@loginPost')->name('login-post');
-    Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/login', 'Auth\LoginController@login')->name('login');
+Route::post('/login-post', 'Auth\LoginController@loginPost')->name('login-post');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
-    Route::group(['prefix' => 'admin', 'middleware' => ['sentinel-auth','authorization']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['sentinel-auth', 'authorization']], function () {
 
-        Route::get('/dashboard', 'Admin\DashboardController@getDashboard')->name('admin.dashboard');
+    Route::group(['prefix' => 'ajax'], function () {
 
-        Route::resource('/users-groups/users', 'Admin\UserController');
-        Route::resource('/users-groups/groups', 'Admin\GroupController');
-
+        Route::post('/common/slug', 'Admin\CommonController@postSlug');
     });
+
+    Route::get('/dashboard', 'Admin\DashboardController@getDashboard')->name('admin.dashboard');
+
+    Route::resource('/users-groups/users', 'Admin\UserController');
+    Route::resource('/users-groups/groups', 'Admin\GroupController');
+
+});
