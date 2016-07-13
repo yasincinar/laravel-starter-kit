@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Cartalyst\Sentinel\Users\EloquentUser;
 
 /**
  * App\Models\User
@@ -23,7 +23,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends EloquentUser
 {
     /**
      * The attributes that are mass assignable.
@@ -54,8 +54,4 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\City');
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Models\Role', 'role_users', 'user_id', 'role_id');
-    }
 }

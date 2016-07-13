@@ -14,12 +14,15 @@ class AdminController extends Controller
 {
     protected $currentUser;
     protected $accessForbidden = 'Bu Sayfayı Görüntüleme Yetkiniz Yok!';
-    protected $deleteResponseMessage = ['success' => true, 'messages' => 'Silme başarılı'];
+
+    protected $deleteSuccessMessage = ['success' => true, 'messages' => 'Silme başarılı'];
+    protected $deleteErrorMessage = ['messages' => 'Beklenmedik bir hata ile karşılaşıldı lütfen sistem yöneticinizle iletişime geçiniz.'];
 
     protected $storeSuccessMessage = ['success' => true, 'messages' => 'Kayıt işlemi başarılı'];
     protected $storeErrorMessage = ['messages' => 'Beklenmedik bir hata ile karşılaşıldı lütfen sistem yöneticinizle iletişime geçiniz.'];
 
-    protected $editResponseMessage = ['success' => true, 'messages' => 'Güncelleme işlemi başarılı'];
+    protected $editSuccessMessage = ['success' => true, 'messages' => 'Güncelleme işlemi başarılı'];
+    protected $editErrorMessage = ['messages' => 'Beklenmedik bir hata ile karşılaşıldı lütfen sistem yöneticinizle iletişime geçiniz.'];
 
     public function __construct()
     {
@@ -27,7 +30,7 @@ class AdminController extends Controller
             $user = Sentinel::getUser();
             if (!is_null($user)) {
                 $data = array(
-                    'currentUser' => $user,
+                    'currentUser' => $user
                 );
                 $this->currentUser = $user;
                 view()->share($data);

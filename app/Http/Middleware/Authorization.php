@@ -58,8 +58,10 @@ class Authorization
                     break;
             }
 
+            Sentinel::hasAccess($permissionGroup . "." . $permission);
             $hasAccess = Sentinel::hasAccess($permissionGroup . "." . $permission);
 
+//            dd($hasAccess);
             if ($hasAccess) {
                 return $next($request);
             } else {

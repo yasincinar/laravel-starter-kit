@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\UserRequest;
+
 use App\Models\City;
 use App\Models\Role;
 use App\Models\User;
@@ -33,7 +34,7 @@ class UserController extends AdminController
                 ->filterColumn('full_name', 'whereRaw', "CONCAT(users.first_name,' ',users.last_name) like ?", ["$1"])
                 ->addColumn('action', function ($user) {
                     if (Sentinel::hasAccess('users.edit')) {
-                        $edit = $this->createEditButton('/admin/users-groups/users' . $user->slug . '/edit');
+                        $edit = $this->createEditButton('/admin/users-groups/users/' . $user->slug . '/edit');
                     } else {
                         $edit = '';
                     }
@@ -44,7 +45,7 @@ class UserController extends AdminController
                     }
                     if (Sentinel::hasAccess('users.show')) {
                         $use = '<a href="' . url("admin/users-groups/users") . "/" . $user->slug . '/use"
-                                class="btn btn-warning" data-tooltip="true" title="Oturumu Kullan" ><i class="fa fa-user"></i></a>&nbsp;';
+                                class="btn btn-warning" data-tooltip="true" title="Oturumu Kullan" ><i class="fa fa-user"></i></a>';
                     } else {
                         $use = '';
                     }
@@ -140,12 +141,26 @@ class UserController extends AdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  string $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $user = User::whereSlug($slug)->with('roles')->first();
+
+        $cities = City::all(['id', 'name']);
+        $roles = Role::all(['id', 'name']);
+
+        $data = [
+            'cities' => $cities,
+            'roles' => $roles,
+            'pageTitle' => 'Kullanıcılar',
+            'pageDescription' => 'Sisteme yeni kullanıcı düzenleme sayfasıdır',
+            'selectedMenu' => 'users',
+            'model' => 'users',
+            'user' => $user
+        ];
+        return view('admin.users-groups.users.edit', $data);
     }
 
     /**
@@ -155,9 +170,38 @@ class UserController extends AdminController
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        try {
+            DB::transaction(function () use ($request) {
+                $updateArray['first_name'] = $request->first_name;
+                $updateArray['last_name'] = $request->last_name;
+                $updateArray['slug'] = $request->slug;
+                $updateArray['email'] = $request->email;
+                if ($request->has('password')) {
+                    $updateArray['password'] = $request->password;
+                }
+                $updateArray['cell_phone'] = $request->cell_phone;
+                $updateArray['identity_number'] = $request->identity_number;
+                $updateArray['address'] = $request->address;
+                $updateArray['city_id'] = $request->city;
+
+                $updateUser = User::whereId($request->user_id)->first();
+                $updateUser->update($updateArray);
+
+                $role = Sentinel::findRoleById($request->role);
+
+                $updateUser->roles()->sync([$role->id]);
+//                $role->users()->attach($updateUser);
+
+            });
+
+        } catch (\Exception $e) {
+            dd($e);
+            return response()->json($this->editErrorMessage, 500);
+        }
+
+        return response()->json($this->editSuccessMessage);
     }
 
     /**
@@ -168,6 +212,15 @@ class UserController extends AdminController
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::transaction(function () use ($id) {
+                $id = \Crypt::decrypt($id);
+                Sentinel::findById($id)->delete();
+            });
+        } catch (\Exception $e) {
+            return response()->json($this->deleteErrorMessage, 500);
+        }
+        return response()->json($this->deleteSuccessMessage);
+
     }
 }

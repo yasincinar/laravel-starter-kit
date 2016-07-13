@@ -34,6 +34,10 @@ class UserRequest extends Request
             $data['role'] = Crypt::decrypt($data['role']);
         }
 
+        if ($data->has('user_id') && $data->get('user_id') != '') {
+            $data['user_id'] = Crypt::decrypt($data['user_id']);
+        }
+
         return $data->toArray();
     }
 
@@ -44,16 +48,42 @@ class UserRequest extends Request
      */
     public function rules()
     {
-        return [
-            'first_name' => 'required|alpha_dash|min:3|max:255',
-            'last_name' => 'required|alpha_dash|min:3|max:255',
-            'slug' => 'required|alpha_dash|min:3|max:255',
-            'email' => 'required|email',
-            'cell_phone' => 'required|size:11',
-            'address' => 'required|min:3|max:65535',
-            'city' => 'required|between:1,82',
-            'role' => 'required',
-            'password' => 'required|alpha_dash|confirmed',
-        ];
+
+
+        switch ($this->getMethod()) {
+            case 'POST':
+                $rules['first_name'] = 'required|alpha_dash|min:3|max:255';
+                $rules['last_name'] = 'required|alpha_dash|min:3|max:255';
+                $rules['slug'] = 'required|alpha_dash|min:3|max:255|unique:users,slug';
+                $rules['email'] = 'required|email|unique:users,email';
+                $rules['cell_phone'] = 'required|size:11|unique:users,cell_phone';
+                $rules['address'] = 'required|min:3|max:65535';
+                $rules['city'] = 'required|between:1,82';
+                $rules['role'] = 'required';
+                $rules['password'] = 'required|alpha_dash|confirmed';
+
+                return $rules;
+
+                break;
+            case 'PUT':
+
+                $userId = Crypt::decrypt($this->get('user_id'));
+                $rules['first_name'] = 'required|alpha_dash|min:3|max:255';
+                $rules['last_name'] = 'required|alpha_dash|min:3|max:255';
+                $rules['slug'] = 'required|alpha_dash|min:3|max:255|unique:users,slug,' . $userId;
+                $rules['email'] = 'required|email|unique:users,email,' . $userId;
+                $rules['cell_phone'] = 'required|size:11|unique:users,cell_phone,' . $userId;
+                $rules['address'] = 'required|min:3|max:65535';
+                $rules['city'] = 'required|between:1,82';
+                $rules['role'] = 'required';
+
+                if ($this->has('password'))
+                    $rules['password'] = 'required|alpha_dash|confirmed';
+
+                return $rules;
+
+                break;
+        }
+
     }
 }
