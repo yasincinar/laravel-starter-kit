@@ -1,6 +1,8 @@
 /**
  * Created by yasincinar on 01/07/16.
  */
+
+
 $(function () {
     var isBootstrapTable = $("[data-current-language]").attr('data-current-language');
     if (isBootstrapTable)
@@ -43,7 +45,17 @@ $(function () {
             var type;
             unBlockUI();
             var message = "";
+            var $elem = null;
             $.each(JSON.parse(response.responseText), function (idx, obj) {
+                //Mark doms with error
+                $elem = $('[name='+idx+']');
+                $elem.closest('div').addClass('has-error');
+                $elem.on('focus', function () {
+                    $(this).closest('div').removeClass('has-error');
+                });
+
+                //Error message
+                obj = firstLetterUpper(obj);
                 message += obj + "<br/>";
             });
             if (response.status != 422) {
@@ -51,7 +63,6 @@ $(function () {
             } else {
                 type = "warning";
             }
-
             swal({html: 1, title: "", text: message, type: type, confirmButtonText: "Ok"});
         }
 
@@ -128,6 +139,8 @@ $(function () {
             slugChange = "changed";
         }
     });
+    //Checkbox
+    $("[type='checkbox']").bootstrapSwitch();
 });
 
 var blockUI = function () {
@@ -272,6 +285,12 @@ $("body").delegate(".deleteRows ", "click", function () {
 
     });
 });
+
+//It makes first letter of text upper and the others lower
+function firstLetterUpper(text) {
+    text = String(text);
+    return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+}
 
 
 

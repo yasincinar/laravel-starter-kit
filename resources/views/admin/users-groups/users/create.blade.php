@@ -17,7 +17,7 @@
                         <div class="form-group">
                             <label for="first-name">Ad</label>
                             <input type="text" class="form-control" id="first-name" name="first_name"
-                                   placeholder="Mahmut">
+                                   placeholder="Ad">
                         </div>
                         <div class="form-group" id="before-slug"
                              data-href="/admin/ajax/common/slug"
@@ -26,7 +26,7 @@
                              data-token="{{csrf_token()}}">
                             <label for="last-name">Soyad</label>
                             <input type="text" class="form-control" id="last-name" name="last_name"
-                                   placeholder="Tuncer">
+                                   placeholder="Soyad">
                         </div>
                         <div class="form-group">
                             <label for="email">E mail</label>

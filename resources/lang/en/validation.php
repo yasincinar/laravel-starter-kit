@@ -119,6 +119,7 @@ return [
         'slug' => 'url',
         'cell_phone' => 'cell phone',
         'address' => 'address',
+        'permissions' => 'permissions',
     ],
 
 ];
