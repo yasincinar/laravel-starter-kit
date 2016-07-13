@@ -23,7 +23,7 @@ class UserTableSeeder extends Seeder
             'city_id' => 26
         ];
 
-        $godModeRole = Sentinel::findRoleBySlug('god-mode');
+        $godModeRole = \App\Models\Role::where('slug','god-mode')->first();
         $adminUser = Sentinel::registerAndActivate($admin);
         $adminUser->roles()->attach($godModeRole->id);
     }

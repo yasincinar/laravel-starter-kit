@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class RoleTableSeeder extends Seeder
@@ -21,12 +22,11 @@ class RoleTableSeeder extends Seeder
         }
 
         //Save role for God Mode
-        $roleGodMode = [
+        Role::create([
             'name' => 'God Mode',
             'slug' => 'god-mode',
             'permissions' => $godModePermissions
-        ];
-        Sentinel::getRoleRepository()->createModel()->fill($roleGodMode)->save();
+        ]);
         
     }
 }
