@@ -113,6 +113,7 @@ return [
         'slug' => 'url',
         'cell_phone' => 'cep telefonu',
         'address' => 'adres',
+        'permissions' => 'izinler',
     ],
 
 ];

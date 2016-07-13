@@ -4,5 +4,6 @@
 
 //It makes first letter of text upper and the others lower
 function firstLetterUpper(text) {
+    text = String(text);
     return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
 }

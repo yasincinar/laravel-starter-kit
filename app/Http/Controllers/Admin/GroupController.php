@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\GroupRequest;
+use App\Models\Permission;
 use App\Models\Role;
 use DB;
 use Illuminate\Http\Request;
@@ -20,44 +21,39 @@ class GroupController extends AdminController
      */
     public function index(Datatables $datatables)
     {
-        if (Sentinel::hasAccess('groups.show')) {
+        if ($datatables->getRequest()->ajax()) {
+            $roles = Role::all();
 
-            if ($datatables->getRequest()->ajax()) {
-                $roles = Role::all();
+            return Datatables::of($roles)
+                ->addColumn('action', function ($role) {
+                    if (Sentinel::hasAccess('groups.edit')) {
+                        $edit = $this->createEditButton('/admin/users-groups/groups/' . $role->slug . '/edit');
+                    } else {
+                        $edit = '';
+                    }
+                    if (Sentinel::hasAccess('groups.delete')) {
+                        $delete = $this->createDeleteButton($role->id, 'admin.users-groups.groups.destroy');
+                    } else {
+                        $delete = '';
+                    }
+                    return $edit . ' ' . $delete;
+                })
+                ->removeColumn('permissions')
+                ->make(true);
 
-                return Datatables::of($roles)
-                    ->addColumn('action', function ($role) {
-                        if (Sentinel::hasAccess('group.edit')) {
-                            $edit = $this->createEditButton('/admin/users-groups/groups/' . $role->slug . '/edit');
-                        } else {
-                            $edit = '';
-                        }
-                        if (Sentinel::hasAccess('user.delete')) {
-                            $delete = $this->createDeleteButton($role->id, 'admin.users-groups.groups.destroy');
-                        } else {
-                            $delete = '';
-                        }
-                        return $edit . ' ' . $delete;
-                    })
-                    ->removeColumn('permissions')
-                    ->make(true);
-
-            }
-            $html = $datatables->getHtmlBuilder()
-                ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Grup Adı'])
-                ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => 'Oluşturulma Tarihi'])
-                ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Güncellenme Tarihi'])
-                ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'İşlemler', 'orderable' => false, 'searchable' => false])
-                ->parameters(array('order' => [1, 'desc']));
-            $data = [
-                'selectedMenu' => 'groups',
-                'pageTitle' => 'Gruplar',
-                'pageDescription' => 'Sistem gruplarına ait özellikler bu sayfada yer almaktadır',
-            ];
-            return view('admin.users-groups.groups.index', $data)->with(compact('html'));
-        } else {
-            abort(403, $this->accessForbidden);
         }
+        $html = $datatables->getHtmlBuilder()
+            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Grup Adı'])
+            ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => 'Oluşturulma Tarihi'])
+            ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Güncellenme Tarihi'])
+            ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'İşlemler', 'orderable' => false, 'searchable' => false])
+            ->parameters(array('order' => [1, 'desc']));
+        $data = [
+            'selectedMenu' => 'groups',
+            'pageTitle' => 'Gruplar',
+            'pageDescription' => 'Sistem gruplarına ait özellikler bu sayfada yer almaktadır',
+        ];
+        return view('admin.users-groups.groups.index', $data)->with(compact('html'));
     }
 
     /**
@@ -67,42 +63,38 @@ class GroupController extends AdminController
      */
     public function create()
     {
-        if (Sentinel::hasAccess('groups.create')) {
+        $permissions = DB::table('permissions')->get();
 
-            $permissions = DB::table('permissions')->get();
+        $permissionArray = [];
+        foreach ($permissions as $permission) {
+            $display_name = explode(" ", $permission->display_name);
+            array_pop($display_name);
+            $permissionName = implode(" ", $display_name);
+            $permissionType = explode(".", $permission->name);
+            $permissionType = end($permissionType);
 
-            $permissionArray = [];
-            foreach ($permissions as $permission) {
-                $display_name = explode(" ", $permission->display_name);
-                array_pop($display_name);
-                $permissionName = implode(" ", $display_name);
-                $permissionType = explode(".", $permission->name);
-                $permissionType = end($permissionType);
-
-                //Change special show permissions with show
-                if (!in_array($permissionType, ['create', 'edit', 'delete'])) {
-                    $permissionType = 'show';
-                }
-                $permissionArray[$permissionName][$permissionType] = $permission->name;
-
-                //Define all permissions
-                $permisssionTypeArray = ['show', 'create', 'edit', 'delete'];
-                foreach ($permisssionTypeArray as $p) {
-                    if (!array_key_exists($p, $permissionArray[$permissionName]))
-                        $permissionArray[$permissionName][$p] = null;
-
-                }
+            //Change special show permissions with show
+            if (!in_array($permissionType, ['create', 'edit', 'delete'])) {
+                $permissionType = 'show';
             }
-            $data = [
-                'permissions' => $permissionArray,
-                'selectedMenu' => 'groups',
-                'pageTitle' => 'Yeni Grup',
-                'pageDescription' => 'Kullanıcıları yetkilendirmek için grup oluşturun',
-            ];
-            return view('admin.users-groups.groups.create', $data);
-        } else {
-            abort(403, $this->accessForbidden);
+            $permissionArray[$permissionName][$permissionType] = $permission->name;
+
+            //Define all permissions
+            $permisssionTypeArray = ['show', 'create', 'edit', 'delete'];
+            foreach ($permisssionTypeArray as $p) {
+                if (!array_key_exists($p, $permissionArray[$permissionName]))
+                    $permissionArray[$permissionName][$p] = null;
+
+            }
         }
+        $data = [
+            'permissions' => $permissionArray,
+            'selectedMenu' => 'groups',
+            'pageTitle' => 'Yeni Grup',
+            'pageDescription' => 'Kullanıcıları yetkilendirmek için grup oluşturun',
+            'model' => 'roles'
+        ];
+        return view('admin.users-groups.groups.create', $data);
     }
 
     /**
@@ -111,20 +103,26 @@ class GroupController extends AdminController
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public
-    function store()
+    public function store(GroupRequest $request)
     {
-//        GroupRequest $request
-        $permissions = request()->get('permissions');
-        if (Sentinel::hasAccess('groups.create')) {
+        try {
             $permissions = [];
-            foreach ($permissions as $permission) {
-                $permissions[] = \Crypt::decrypt($permission);
+            foreach ($request->permissions as $permission) {
+                $permissions[\Crypt::decrypt($permission)] = true;
             }
-            return $permissions;
-        } else {
-            abort(403, $this->accessForbidden);
+
+            Role::create([
+                'slug' => $request->slug,
+                'name' => $request->role_name,
+                'permissions' => $permissions,
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json($this->storeErrorMessage, 500);
         }
+
+        return response()->json($this->storeSuccessMessage);
     }
 
     /**
@@ -145,10 +143,42 @@ class GroupController extends AdminController
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function edit($id)
+    public function edit($slug)
     {
-        //
+        $role = Role::where('slug', $slug)->first();
+        //All permissions
+        $permissions = Permission::all();
+        $permissionArray = [];
+        foreach ($permissions as $permission) {
+            $display_name = explode(" ", $permission->display_name);
+            array_pop($display_name);
+            $permissionName = implode(" ", $display_name);
+            $permissionType = explode(".", $permission->name);
+            $permissionType = end($permissionType);
+
+            //Change special show permissions with show
+            if (!in_array($permissionType, ['create', 'edit', 'delete'])) {
+                $permissionType = 'show';
+            }
+            $permissionArray[$permissionName][$permissionType] = $permission->name;
+
+            //Define all permissions
+            $permisssionTypeArray = ['show', 'create', 'edit', 'delete'];
+            foreach ($permisssionTypeArray as $p) {
+                if (!array_key_exists($p, $permissionArray[$permissionName]))
+                    $permissionArray[$permissionName][$p] = null;
+            }
+        }
+        $data = [
+            'role' => $role,
+            'permissions' => $permissionArray,
+            'selectedMenu' => 'groups',
+            'pageTitle' => $role->name,
+            'pageDescription' => 'Grup ayarlarını düzenleyin',
+            'model' => 'roles'
+        ];
+        return view('admin.users-groups.groups.edit', $data);
+
     }
 
     /**
@@ -159,9 +189,26 @@ class GroupController extends AdminController
      * @return \Illuminate\Http\Response
      */
     public
-    function update(Request $request, $id)
+    function update(GroupRequest $request, $slug)
     {
-        //
+        try {
+            $permissions = [];
+            foreach ($request->permissions as $permission) {
+                $permissions[\Crypt::decrypt($permission)] = true;
+            }
+
+            Role::where('slug', $slug)->update([
+                'slug' => $request->slug,
+                'name' => $request->role_name,
+                'permissions' => $permissions,
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json($this->storeErrorMessage, 500);
+        }
+
+        return response()->json($this->storeSuccessMessage);
     }
 
     /**

@@ -8,17 +8,17 @@
             <div class="box">
                 <div class="box-header">
                 </div>
-                <form role="form" id="store-form" enctype="multipart/form-data" method="POST"
-                      action="/admin/users-groups/groups" data-redirect="/admin/users-groups/groups">
+                <form role="form" id="store-form" enctype="multipart/form-data" method="PUT"
+                      action="/admin/users-groups/groups/{{$role->slug}}" data-redirect="/admin/users-groups/groups">
                     <div class="box-body">
                         <div class="form-group" id="before-slug"
                              data-href="/admin/ajax/common/slug"
                              data-model="{{Crypt::encrypt($model)}}"
-                             data-slug-default="Seo URL"
+                             data-slug-default="{{$role->slug}}"
                              data-token="{{csrf_token()}}">
                             <label for="role-name">Grup Adı</label>
                             <input type="text" class="form-control" id="role-name" name="role_name"
-                                   placeholder="Grup Adı">
+                                   placeholder="Grup Adı" value="{{$role->name}}">
                         </div>
                         <div class="form-group" id="permissions-div">
                             <table class="table table-striped table-bordered" data-toggle="table"
@@ -46,7 +46,8 @@
                                                            data-off-text="<i class='fa fa-times'></i>"
                                                            data-on-color="success"
                                                            data-size="small"
-                                                           value="{{Crypt::encrypt($permissionValue)}}">
+                                                           value="{{Crypt::encrypt($permissionValue)}}"
+                                                           @if(array_key_exists($permissionValue, $role->permissions) && $role->permissions[$permissionValue]) checked @endif>
                                                 </td>
                                             @else
                                                 <td>

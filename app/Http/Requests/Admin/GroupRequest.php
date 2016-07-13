@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\Request;
+use Crypt;
 
 class GroupRequest extends Request
 {
@@ -14,6 +15,16 @@ class GroupRequest extends Request
     public function authorize()
     {
         return true;
+    }
+
+    public function all()
+    {
+        $data = collect(parent::all());
+
+        if ($data->has('id') && $data->get('id') != '') {
+            $data['id'] = Crypt::decrypt($data['id']);
+        }
+        return $data->toArray();
     }
 
     /**
