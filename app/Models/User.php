@@ -25,6 +25,8 @@ use Cartalyst\Sentinel\Users\EloquentUser;
  */
 class User extends EloquentUser
 {
+    protected $table = 'users';
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -43,15 +45,14 @@ class User extends EloquentUser
         'password', 'remember_token',
     ];
 
-//    public function setPasswordAttribute($value)
-//    {
-//        $this->attributes['password'] = bcrypt($value);
-//    }
-
-
     public function city()
     {
         return $this->belongsTo('App\Models\City');
+    }
+
+    public function cityId()
+    {
+        return $this->city_id;
     }
 
 }

@@ -79,4 +79,10 @@
 @endsection
 @section('js')
     <script src="/assets/plugins/bootstrap-switch-master/dist/js/bootstrap-switch.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Checkbox
+            $("[type='checkbox']").bootstrapSwitch();
+        });
+    </script>
 @endsection

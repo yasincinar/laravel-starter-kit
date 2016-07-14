@@ -32,7 +32,6 @@ class LoginController extends Controller
         ];
 
         $user = Sentinel::authenticate($credentials, $request->remember);
-        dd($user);
 
         if (!$user) {
             return back()

@@ -205,10 +205,11 @@ class GroupController extends AdminController
 
         } catch (\Exception $e) {
 
-            return response()->json($this->storeErrorMessage, 500);
+//            echo response()->json($this->storeErrorMessage, 500);
+            echo 3;
         }
-
-        return response()->json($this->storeSuccessMessage);
+        echo 2;
+//        echo response()->json($this->storeSuccessMessage);
     }
 
     /**
