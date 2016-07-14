@@ -43,10 +43,10 @@ class User extends EloquentUser
         'password', 'remember_token',
     ];
 
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = bcrypt($value);
-    }
+//    public function setPasswordAttribute($value)
+//    {
+//        $this->attributes['password'] = bcrypt($value);
+//    }
 
 
     public function city()

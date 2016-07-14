@@ -11,6 +11,19 @@
 |
 */
 
+Route::get('asd', function(){
+    \App\Models\User::create([
+        'email' => 'admin2@admin.com',
+        'password' => 'admin2',
+        'first_name' => 'Admin2',
+        'last_name' => 'Admin2',
+        'slug' => 'admin2',
+        'cell_phone' => 1122111111111,
+        'identity_number' => 1221111111111,
+        'city_id' => 36
+    ]);
+});
+
 Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/login-post', 'Auth\LoginController@loginPost')->name('login-post');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

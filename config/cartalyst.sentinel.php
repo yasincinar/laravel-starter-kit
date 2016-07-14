@@ -68,7 +68,7 @@ return [
 
     'roles' => [
 
-        'model' => 'App\Models\User',
+        'model' => 'App\Models\Role',
 
     ],
 
