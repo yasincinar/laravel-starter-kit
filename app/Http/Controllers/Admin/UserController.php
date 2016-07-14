@@ -197,7 +197,7 @@ class UserController extends AdminController
             });
 
         } catch (\Exception $e) {
-            dd($e);
+            
             return response()->json($this->editErrorMessage, 500);
         }
 
@@ -211,16 +211,16 @@ class UserController extends AdminController
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        try {
-            DB::transaction(function () use ($id) {
-                $id = \Crypt::decrypt($id);
-                Sentinel::findById($id)->delete();
-            });
-        } catch (\Exception $e) {
-            return response()->json($this->deleteErrorMessage, 500);
-        }
-        return response()->json($this->deleteSuccessMessage);
+    {echo $id;
+//        try {
+//            DB::transaction(function () use ($id) {
+//                $id = \Crypt::decrypt($id);
+//                Sentinel::findById($id)->delete();
+//            });
+//        } catch (\Exception $e) {
+//            return response()->json($this->deleteErrorMessage, 500);
+//        }
+//        return response()->json($this->deleteSuccessMessage);
 
     }
 }

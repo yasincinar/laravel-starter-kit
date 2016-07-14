@@ -8,13 +8,14 @@
             <div class="box">
                 <div class="box-header">
                 </div>
-                <form role="form" id="store-form" enctype="multipart/form-data" method="PUT"
+                <form role="form" id="store-form" enctype="multipart/form-data" method="post"
                       action="/admin/users-groups/groups/{{$role->slug}}" data-redirect="/admin/users-groups/groups">
                     <div class="box-body">
                         <div class="form-group" id="before-slug"
                              data-href="/admin/ajax/common/slug"
                              data-model="{{Crypt::encrypt($model)}}"
-                             data-slug-default="{{$role->slug}}"
+                             data-slug-default="Seo URL"
+                             data-slug="{{$role->slug}}"
                              data-token="{{csrf_token()}}">
                             <label for="role-name">Grup Adı</label>
                             <input type="text" class="form-control" id="role-name" name="role_name"
@@ -63,6 +64,8 @@
                     </div>
                     <div class="box-footer">
                         {{csrf_field()}}
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="id" value="{{encrypt($role->id)}}">
                         <div class="pull-right">
                             <button type="button" id="cancel-btn" data-href="/admin/users-groups/groups"
                                     class="btn btn-danger"><i class="fa fa-times"></i> İptal

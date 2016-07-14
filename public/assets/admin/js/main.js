@@ -71,7 +71,6 @@ $(function () {
             if (response.redirect)
                 red = response.redirect;
             unBlockUI();
-            console.log(response);
             if (response.success) {
                 //swal({html: 1, title: "", text: "", type: "success", confirmButtonText: "Ok"});
                 swal({

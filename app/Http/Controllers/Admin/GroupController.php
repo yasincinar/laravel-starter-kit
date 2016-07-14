@@ -178,7 +178,6 @@ class GroupController extends AdminController
             'model' => 'roles'
         ];
         return view('admin.users-groups.groups.edit', $data);
-
     }
 
     /**
@@ -189,7 +188,7 @@ class GroupController extends AdminController
      * @return \Illuminate\Http\Response
      */
     public
-    function update(GroupRequest $request, $slug)
+    function update(GroupRequest $request)
     {
         try {
             $permissions = [];
@@ -197,19 +196,17 @@ class GroupController extends AdminController
                 $permissions[\Crypt::decrypt($permission)] = true;
             }
 
-            Role::where('slug', $slug)->update([
+            Role::where('id', $request->id)->update([
                 'slug' => $request->slug,
                 'name' => $request->role_name,
-                'permissions' => $permissions,
+                'permissions' => json_encode($permissions),
             ]);
 
         } catch (\Exception $e) {
 
-//            echo response()->json($this->storeErrorMessage, 500);
-            echo 3;
+            return response()->json($this->editErrorMessage, 500);
         }
-        echo 2;
-//        echo response()->json($this->storeSuccessMessage);
+        return response()->json($this->editSuccessMessage);
     }
 
     /**
@@ -218,9 +215,17 @@ class GroupController extends AdminController
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
-        //
+        try {
+            DB::transaction(function () use ($id) {
+                $id = \Crypt::decrypt($id);
+                Sentinel::findRoleById($id)->delete();
+            });
+        } catch (\Exception $e) {
+            return response()->json($this->deleteErrorMessage, 500);
+        }
+        return response()->json($this->deleteSuccessMessage);
+
     }
 }
